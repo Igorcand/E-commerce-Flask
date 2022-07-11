@@ -4,8 +4,13 @@ from shop import app, db, bcrypt
 from shop.admin.forms import RegistrationForm, LoginForm
 from shop.admin.models import User
 
-@app.route('/')
-def home():
+
+@app.route('/admin')
+def admin():
+    if 'email' not in session:
+        flash(f'Please login first', 'danger')
+        return redirect(url_for('login'))
+    #products = AddProduct.query.all()
     return render_template('admin/index.html', title='Admin Page')
 
 
