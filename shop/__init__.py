@@ -9,4 +9,5 @@ app.config['SECRET_KEY'] = 'banana'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
+
 from shop.admin import routes
