@@ -2,11 +2,11 @@
 <!-- This HTML will load the mainly file and change just the block content part-->
 
 {% block content %}
-
-<div class="text-center h1">register</div>
-<div class="container text-left">
+<div class="container">
     <!-- Its importing  the other html-->
+    {% include '_messages.html' %}
     {% from "_formhelpers.html" import render_field %}
+    <div class="text-center h1 white bg-primary p-2">Register </div>
     <form method="post" enctype="multipart/form-data">
         <div>
             {{ render_field(form.name, class="form-control") }}
