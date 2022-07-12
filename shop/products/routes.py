@@ -10,8 +10,8 @@ def addbrand():
         getbrand = request.form.get('brand')
         brand = Brand(name=getbrand)
         db.session.add(brand)
-        db.session.commit()
         flash(f'The brand {getbrand} was added to your database', 'success')
+        db.session.commit()
         return redirect(url_for('addbrand'))
 
     
@@ -23,16 +23,16 @@ def addcat():
         getcat = request.form.get('category')
         category = Category(name=getcat)
         db.session.add(category)
-        db.session.commit()
         flash(f'The category {getcat} was added to your database', 'success')
+        db.session.commit()
         return redirect(url_for('addcat'))
-
-    
     return render_template('products/addbrand.html')
 
 
 
 @app.route('/addproduct', methods=['POST','GET'])
 def addproduct():
+    brands=Brand.query.all()
+    categories = Category.query.all()
     form = Addproducts(request.form)
-    return render_template('products/addproduct.html', title='Add product page', form=form)
+    return render_template('products/addproduct.html', title='Add product page', form=form, brands=brands, categories=categories)
