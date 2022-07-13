@@ -24,7 +24,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Welcome, {form.name.data}. Thanks for registring', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     return render_template('admin/register.html', form=form, title='Registration page')
 
 @app.route('/login', methods=['GET', 'POST'])
