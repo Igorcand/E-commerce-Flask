@@ -4,3 +4,4 @@ flask-wtf
 email_validator
 wtforms
 flask-bcrypt
+Flask-Reuploaded
