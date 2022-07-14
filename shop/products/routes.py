@@ -1,9 +1,13 @@
+from turtle import update
 from flask import render_template, session, request, redirect, url_for, flash
 from shop import db, app, photos
 from shop.products.models import Brand, Category, Addproduct
 from shop.products.forms import Addproducts
 import secrets 
 
+@app.route('/')
+def home():
+    return ''
 
 @app.route('/addbrand', methods=['GET', 'POST'])
 def addbrand():
@@ -17,9 +21,36 @@ def addbrand():
         flash(f'The brand {getbrand} was added to your database', 'success')
         db.session.commit()
         return redirect(url_for('addbrand'))
-
-    
     return render_template('products/addbrand.html', brands='brands')
+
+@app.route('/updatebrand/<int:id>', methods=['GET', 'POST'])
+def updatebrand(id):
+    if 'email' not in session:
+        flash(f'Please login first', 'danger')
+        return redirect(url_for('login'))
+    updatebrand = Brand.query.get_or_404(id)
+    brand = request.form.get('brand')
+    if request.method == 'POST':
+        updatebrand.name = brand 
+        flash(f'Your brand has been updated', 'success')
+        db.session.commit()
+        return redirect(url_for('brands'))
+    return render_template('products/updatebrand.html', title='Update Brand page', updatebrand=updatebrand)
+
+
+@app.route('/updatecat/<int:id>', methods=['GET', 'POST'])
+def updatecat(id):
+    if 'email' not in session:
+        flash(f'Please login first', 'danger')
+        return redirect(url_for('login'))
+    updatecat = Category.query.get_or_404(id)
+    category = request.form.get('category')
+    if request.method == 'POST':
+        updatecat.name = category 
+        flash(f'Your category has been updated', 'success')
+        db.session.commit()
+        return redirect(url_for('category'))
+    return render_template('products/updatebrand.html', title='Update Category page', updatecat=updatecat)
 
 @app.route('/addcat', methods=['GET', 'POST'])
 def addcat():
