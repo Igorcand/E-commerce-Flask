@@ -16,16 +16,16 @@ def admin():
     return render_template('admin/index.html', title='Admin Page', products=products)
 
 
-@app.route('/brands')
-def brands():
+@app.route('/category')
+def category():
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
     categories = Category().query.order_by(Category.id.desc()).all()
     return render_template('admin/brand.html', title='Category page', categories=categories)
 
-@app.route('/category')
-def category():
+@app.route('/brands')
+def brands():
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
