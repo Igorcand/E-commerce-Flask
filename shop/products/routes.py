@@ -1,9 +1,9 @@
 from turtle import update
-from flask import render_template, session, request, redirect, url_for, flash
+from flask import current_app, render_template, session, request, redirect, url_for, flash
 from shop import db, app, photos
 from shop.products.models import Brand, Category, Addproduct
 from shop.products.forms import Addproducts
-import secrets 
+import secrets, os
 
 @app.route('/')
 def home():
@@ -114,6 +114,26 @@ def updateproduct(id):
         product.category_id = category
         product.colors = form.color.data
         product.desc = form.description.data
+
+        if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/' + product.image_1))
+                product.image_1 = photos.save(request.files.get('image_1'), name=secrets.token_hex(10) + '.')
+            except :
+                product.image_1 = photos.save(request.files.get('image_1'), name=secrets.token_hex(10) + '.')
+        if request.files.get('image_2'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/' + product.image_2))
+                product.image_2 = photos.save(request.files.get('image_2'), name=secrets.token_hex(10) + '.')
+            except :
+                product.image_2 = photos.save(request.files.get('image_2'), name=secrets.token_hex(10) + '.')
+        if request.files.get('image_3'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/' + product.image_3))
+                product.image_3 = photos.save(request.files.get('image_3'), name=secrets.token_hex(10) + '.')
+            except :
+                product.image_3 = photos.save(request.files.get('image_3'), name=secrets.token_hex(10) + '.')
+
         db.session.commit()
         flash(f'Your product has been updated', 'success')
         return redirect(url_for('admin'))
