@@ -1,4 +1,3 @@
-from turtle import update
 from flask import current_app, render_template, session, request, redirect, url_for, flash
 from shop import db, app, photos
 from shop.products.models import Brand, Category, Addproduct
