@@ -32,3 +32,8 @@ def customerLogin():
             flash('Incorrect email and password', 'danger')
             return redirect(url_for('customerLogin'))
     return render_template('/customer/login.html', form=form)
+
+@app.route('/customer/logout')
+def customerLogout():
+    logout_user()
+    return redirect(url_for('home'))
