@@ -2,7 +2,7 @@ from flask import current_app, render_template, session, request, redirect, url_
 from flask_login import login_required, current_user, logout_user, login_user
 from shop import db, app, photos, bcrypt, login_manager
 from shop.customers.forms import CustomerRegisterForm, CustomerLoginForm
-from shop.customers.models import Register
+from shop.customers.models import Register, CustomerOrder
 
 import secrets, os
 
@@ -37,3 +37,21 @@ def customerLogin():
 def customerLogout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/getorder')
+@login_required
+def getorder():
+    if current_user.is_authenticated:
+        customer_id = current_user.id
+        invoice = secrets.token_hex(5)
+        try:
+            order = CustomerOrder(invoice=invoice, customer_id=customer_id, orders=session['Shoppingcart'])
+            db.session.add(order)
+            flash('Your order has been sent successfully', 'success')
+            db.session.commit()
+            session.pop('Shoppingcart')
+            return redirect(url_for('home'))
+        except Exception as e:
+            print(e)
+            flash('Something went wrong while get order', 'danger')
+            return redirect(url_for('getCart'))
