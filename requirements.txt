@@ -7,3 +7,4 @@ flask-bcrypt
 Flask-Reuploaded
 flask-login
 flask-msearch
+flask_migrate
