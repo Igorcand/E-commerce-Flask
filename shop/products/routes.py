@@ -18,6 +18,11 @@ def home():
     products = Addproduct.query.filter(Addproduct.stock>0).order_by(Addproduct.id.desc()).paginate(page=page, per_page=8)
     return render_template('/products/index.html', products=products, brands=brands(), categories=categories())
 
+@app.route('/result')
+def result():
+    searchword = request.args.get('q')
+    products = Addproduct.query.msearch(searchword, fields=['name','desc'] , limit=6)
+    return render_template('products/result.html',products=products,brands=brands(),categories=categories())
 
 @app.route('/product/<int:id>')
 def single_page(id):
