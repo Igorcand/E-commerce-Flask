@@ -128,7 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-myshop.db
-shop/static/images/
+
 examples/
 migrations/
